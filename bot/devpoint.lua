@@ -1,752 +1,658 @@
-package.path = package.path .. ';.luarocks/share/lua/5.2/?.lua'
-  ..';.luarocks/share/lua/5.2/?/init.lua'
-package.cpath = package.cpath .. ';.luarocks/lib/lua/5.2/?.so'
+<?php
+# : @tech4faccount 
+#  : @samer00s
+ob_start();
+define('API_KEY','1704615840:AAHAEZYz8Aiyny6lveDfbdXrMR85321uReo');
+function bot($method,$datas=[]){
+    $url = "https://api.telegram.org/bot".API_KEY."/".$method;
+$ch = curl_init();
+    curl_setopt($ch,CURLOPT_URL,$url);
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+    curl_setopt($ch,CURLOPT_POSTFIELDS,$datas);
+    $res = curl_exec($ch);
+    if(curl_error($ch)){
+        var_dump(curl_error($ch));
+    }else{
+        return json_decode($res);
+    }
+}
 
-require("./bot/utils")
+$update = json_decode(file_get_contents('php://input'));
+$message = $update->message;
+$chat_id = $message->chat->id;
+$text = $message->text;
+$chat_id2 = $update->callback_query->message->chat->id;
+$message_id = $update->callback_query->message->message_id;
+$data = $update->callback_query->data;
 
-local f = assert(io.popen('/usr/bin/git describe --tags', 'r'))
-VERSION = assert(f:read('*a'))
-f:close()
+if($text=="/start"){
+	bot('sendmessage',[
+	'chat_id'=>$chat_id,
+	'text'=>"hello",
+	]);
+	}
+do
+ws = {}
+rs = {}
 
--- This function is called when tg receive a msg
-function on_msg_receive (msg)
-  if not started then
-    return
-  end
+-- some examples of how to use this :3
+ws[1] = "هلو" -- msg 
+rs[1] = "هلوات عيني😜" -- reply
 
-  msg = backward_msg_format(msg)
+ws[2] = "شلونكم" -- msg
+rs[2] = " احسن منك 😂" -- reply
 
-  local receiver = get_receiver(msg)
-  print(receiver)
-  --vardump(msg)
-  --vardump(msg)
-  msg = pre_process_service_msg(msg)
-  if msg_valid(msg) then
-    msg = pre_process_msg(msg)
-    if msg then
-      match_plugins(msg)
-      if redis:get("bot:markread") then
-        if redis:get("bot:markread") == "on" then
-          mark_read(receiver, ok_cb, false)
-        end
-      end
-    end
-  end
+ws[3] = "نجب" -- msg
+rs[3] = "يخي اتجاوزك بخلاقي😑" -- reply
+
+ws[4] = "احبك" -- msg 
+rs[4] = "حبك برص😒" -- reply
+
+ws[5] = "تحبني" -- msg 
+rs[5] = "احب وسبر😍 وميكو😍 واوفي😍 وبس😍" -- reply
+
+ws[6] = "ماحب امير" -- msg 
+rs[6] = "هسه اكله الامير عليك😈 @MrWhisper ⚠️ " -- reply
+
+ws[7] = "احبج" -- msg 
+rs[7] = "يخي احترم شعوري😢" -- reply
+
+ws[8] = "واكف" -- msg 
+rs[8] = "يخي مابيه شي ليش تتفاول😢" -- reply
+
+ws[9] = "@fuck_8_you" -- msg 
+rs[9] = "يخي نايم بعليك😂 من يجي اكله" -- reply
+
+ws[10] = "البوت واكف" -- msg 
+rs[10] = "هياتني 😐" -- reply 
+
+ws[11] = "صدك" -- msg 
+rs[11] = "متشاقي وياك كبل😕" -- reply
+
+ws[12] = "اريد كروب" -- msg 
+rs[12] = "☺تضيف 30 عضو بي" -- reply
+
+ws[13] = "سربوت شنو" -- msg 
+rs[13] = "هاذا حبيبي❤️😘"  -- reply
+
+ws[14] = "لك معليك اني و ضلعي" -- msg 
+rs[14] = "😐اوك اثف"  -- reply
+
+ws[15] = "😂" -- msg 
+rs[15] = " •❤•فٌدِيـ❤ـِـْْت هلضحكه•❤•"
+
+ws[16] = "وكف البوت" -- msg 
+rs[16] = "😐 شلون راح اطردك" -- reply
+
+ws[17] = "كم بي" -- msg 
+rs[17] = "😴لتتلزك" -- reply
+
+ws[18] = "دي" -- msg 
+rs[18] = "👺خليني حبك" -- reply
+
+ws[19] = "مرحبا" -- msg 
+rs[19] = "مراحب نورت عيني😌" -- reply
+
+ws[20] = "خاب" -- msg 
+rs[20] = "بيك" -- reply
+
+ws[21] = "اي اضيف" -- msg 
+rs[21] = "روحلهم خاص @MrWhisper ⚠ @aufy98 " -- reply
+
+ws[22] = "انجب" -- msg 
+rs[22] = "يخي اتجاوزك بخلاقي😑" -- reply
+
+ws[23] = "كحاب" -- msg 
+rs[23] = "امك وخواتك😈 لتجاوز تنطرد" -- reply
+
+ws[24] = "افلش" -- msg 
+rs[24] = "باند عام من 30 بوت😉" -- reply
+
+ws[25] = "ساره شنو" -- msg 
+rs[25] = " احلى من الكمر وشويه اضوه 😍🖐" -- reply
+
+ws[26] = "ورده" -- msg 
+rs[26] = "قندرتك فرده وفرده 😂" -- reply
+
+ws[27] = "كنك" -- msg 
+rs[27] = "عيونه👀 وخشمه👃واذنه👂😍" -- reply
+
+ws[28] = "صوف" -- msg 
+rs[28] = "؏ـيــ❦ـونةة لصــوف 😻❤️" -- reply
+
+ws[29] = "بوسني" -- msg 
+rs[29] = "ممممممممممححححح😍😘💋" -- reply
+
+ws[30] = "عبك" -- msg 
+rs[30] = "اخرب عليك😍💋" -- reply
+
+ws[31] = "تعال اتزوجك" -- msg 
+rs[31] = "ايييي يله هاج معبس💍😍" -- reply
+
+ws[32] = "حبيبي" -- msg 
+rs[32] = "عيون حبيبي😍" -- reply
+
+ws[33] = "تحبني لو لا" -- msg 
+rs[33] = "اي شعندي غيرج ملاك😍" -- reply
+
+ws[34] = "يومه فدوه" -- msg 
+rs[34] = "فدؤه الج حياتي 😍😙" -- reply
+
+ws[35] = "شلونك بوت" -- msg 
+rs[35] = " الحمد لله وانت😍😙" -- reply
+
+
+ws[36] = "مستر هكر شنو" -- msg 
+rs[36] = " واحد يستحي يدز صورته هههههه🖐" -- reply
+
+ws[37] = "علوشكي شنو"
+rs[37] = " واحد ظاغط بنات الكروب 🌚🖐"
+
+ws[38] = "اوراس شنو"
+rs[38] = "واحد عصبي😡 وميتفاهم😐"
+
+ws[39] = "ضلعه"
+rs[39] = " انجب مو ضلعتك/ج اني 🙌"
+
+ws[40] = "ضلع"
+rs[40] = "انجب مو ضلعك/ج  اني 🙌"
+
+ws[41] = "غبي"
+rs[41] = "مو اغبه منك 😒"
+
+ws[42] = "تف"
+rs[42] = "عيب ابني تتفل اكبر شوية 🌚😂"
+
+ws[43] = "امداج"
+rs[43] = "امداج انتي😐"
+
+ws[44] = "امداك"
+rs[44] = " امداك انت 😒"
+
+ws[45] = "شدسون"
+rs[45] = "نطبخ😐"
+
+ws[46] = "هع"
+rs[46] = " هعهاعه التهعهع عظامك😂😂✋🏿"
+
+ws[47] = "معليك"
+rs[47] = " عليه ونص 😂"
+
+ws[48] = "لتحجي"
+rs[48] = " وانت شعليك حاجي من حلگگ😒"
+
+ws[49] = "اكلك"
+rs[49] = "كلي وما كول لاحد 😉"
+
+ws[50] = "ضوجه"
+rs[50] = "شسوي اركصلك ؟"
+
+ws[51] = "احترم نفسك"
+rs[51] = "احترمه انته بل بدايه 😶"
+
+ws[52] = "تعالي خاص"
+rs[52] = "ها شسون 😉"
+
+ws[53] = "تعال خاص"
+rs[53] = "ها شسون 😉"
+
+ws[54] = "بوسني" -- msg 
+rs[54] =  "مووواح فدوه لربك❤️🙈" -- reply 
+
+ws[55] = "سان" -- msg 
+rs[55] =  "ها حياتي😻❤️" -- reply 
+
+ws[56] = "جوكر" -- msg 
+rs[56] = "هذا الي صنعني فديت ربه 🙈❤️" -- reply 
+
+ws[57] = "شلونكم" -- msg 
+rs[57] = " تمام حياتي وانت شلونك😍❤️" -- reply 
+
+ws[58] = "ضوجه" -- msg 
+rs[58] = "شي اكيد الكبل ماكو 😂 لو بعدك/ج مازاحف/ة 🙊😋" --reply 
+
+ws[59] = "زاحف" -- msg 
+rs[59] = "زاحف على خالتك/ج الشكره️😝😂🙌" 
+
+ws[60] = "احبك" -- msg 
+rs[60] ="خخ فدوه اروحلك انا امواح🙈❤️" 
+
+ws[61] = "انجب" -- msg 
+rs[61] =" صار اغاتي انجبيت😷💛️" -- 
+
+ws[62] = "تحبني" -- msg 
+rs[62] =" شعندي غيرك/ج يبعد رويحتي😻❤️️" -- 
+
+ws[53] = "منو صنعك" -- msg 
+rs[53] =" جوكر (دي) فديت ربه  مووواح😻❤️️" -- 
+
+ws[54] = "باي" -- msg 
+rs[54] ="بايات حياتي انته الله وياك👋😽️" 
+
+ws[55] = "اريد بوت حماية" -- msg 
+rs[55] =" أرسلني هنا @devss_bot❤️😍️" 
+
+ws[56] = "هلو" -- msg 
+rs[56] ="هلوات على النبي😹" 
+
+ws[57] ="دي" -- msg 
+rs[57] ="ديييييات" 
+
+ws[58] = "شكد" -- msg 
+rs[58] ="اكثر من ما تتصور😍😍❤️️" 
+
+ws[59] = "اريد اكبل" -- msg 
+rs[59] =" خخ اني هم اريد اكبل قابل ربي وحد😹🙌️" 
+
+ws[60] = "اتفل" -- msg 
+rs[60] ="ختفوووووووووو💦💦️️" 
+
+ws[61] = "شلونك" -- msg 
+rs[61] ="تمام بحي وانت/ي شلونك😍😍😍️️" 
+
+ws[62] ="البوت واكف" -- msg 
+rs[62] ="دافع الاشتراك 3$" 
+
+ws[63] ="كول والله" -- msg 
+rs[63] ="واللهتين" 
+
+ws[64] = "تخليني" -- msg 
+rs[64] ="عيب منا عالم تعال وره ال 12 كلها نايمه😉️️" 
+
+ws[65] ="كروب دعم" -- msg 
+rs[65] =" @sunbot_dev" 
+
+ws[66] = "اكرهك" -- msg 
+rs[66] ="موووواح شلون بوسه عسل والله عسل افيش 😍❤️️" 
+
+ws[67] = "شكو ماكو" -- msg 
+rs[67] ="غيرك/ج بل كلب ماكو يبعد كلبي😍❤️️" 
+
+ws[68] = "اكلك" -- msg 
+rs[68] ="كول يعمري😍❤️️"
+
+ws[69] = "دقيقة" -- msg 
+rs[69] ="صار 🕜 ساعة مو دقيقة😍❤️️"
+
+ws[70] = "اوكف" -- msg 
+rs[70] ="وكفت 💃😍❤️️"
+
+ws[71] = "اروح اصلي" -- msg 
+rs[71] ="انته حافظ سوره الفاتحة😍❤️️"
+
+ws[72] = "الاوامر" -- msg 
+rs[72] ="لظهار لاوامر دز مساعدة😍❤️️"
+
+ws[73] = "help" -- msg 
+rs[73] ="لظهار الاوامر دز مساعدة😍❤️️"
+
+ws[80] = "تركماني"
+rs[80] = " والنعم منك❤️"
+
+ws[81] = "يا سورس هذا"
+rs[81] = "ديف بوينت"
+
+ws[83] = "باي"
+rs[83] = " بايات ❤️🍃"
+
+ws[84] = "تنح"
+rs[84] = "عيب ابني 😒🍃"
+
+ws[85] = "جوعان"
+rs[85] = "تعال اكلني 😐😂"
+
+ws[86] = "عطشان"
+rs[86] = "روح اشرب مي"
+
+ws[87] = "صايم"
+rs[87] = "شسويلك 😐🍃"
+
+ws[88] = "☹️"
+rs[88] = "لضوج حبيبي 😢❤️🍃"
+
+ws[89] = "😔"
+rs[89] = " ليش الحلو ضايج ❤️🍃"
+
+ws[90] = "فرخ"
+rs[90] = " عيبب 😱😱"
+
+ws[92] = "كسمك"
+rs[92] = " عيب 😱😱😱"
+
+ws[93] = "نعال"
+rs[93] = " بوجهك 😐😂"
+
+ws[94] = "حروح اسبح"
+rs[94] = " واخيراً 😂"
+
+ws[95] = "حروح اغسل"
+rs[95] = " واخيراً 😂"
+
+ws[96] = "حروح اطب للحمام"
+rs[96] = " واخيراً 😂"
+
+ws[97] = "حبيبتي"
+rs[97] = " منو هاي 😱 تخوني 😔☹"
+
+ws[98] = "كبلت"
+rs[98] = " بلخير 😂💔"
+
+ws[99] = "البوت عاوي"
+rs[99] = " اطردك ؟ 😒"
+
+ws[100] = "منور"
+rs[100] = " بنورك حبي 😍🍷"
+
+ws[101] = "حفلش"
+rs[101] = " افلش راسك"
+
+ws[102] = "كردي"
+rs[102] = "والنعم منك ❤️"
+
+ws[103] = "طفي السبلت"
+rs[103] = " تم اطفاء السبلت بنجاح 🌚🍃"
+
+ws[104] = "🌝"
+rs[104] = "هه"
+
+ws[105] = "اذن المغرب"
+rs[105] = "استحرم 🌚🍃"
+
+ws[106] = "حلو"
+rs[106] = "انت الاحلى 🌚❤️"
+
+ws[107] = "احبك"
+rs[107] = " اني اكثر 😍🍃"
+
+ws[108] = "😑"
+rs[108] = " شبيك 🍃☹"
+
+ws[109] = "😒"
+rs[109] = "😐 شبيك كالب وجهك "
+
+ws[110] = "منو تحب"
+rs[110] = "خالتك الشكرة"
+
+ws[111] = "اباجر العيد"
+rs[111] = "كل عام وانت بالف خير حبي 😇❤️"
+
+ws[112] = "فديت"
+rs[112] = "ها  زاحف كمشتك"
+
+ws[113] = "مضغوط"
+rs[113] = "دي انضغظ منك ؟ 😂😂"
+
+ws[114] = "فديت"
+rs[114] = "ها  زاحف كمشتك"
+
+ws[115] = "فديتك"
+rs[115] = "ها  زاحف كمشتك"
+
+ws[116] = "فديتج"
+rs[116] = "ها  زاحف كمشتك"
+
+ws[117] = "شوف خاصك"
+rs[117] = "شدازله 😱😨"
+
+ws[118] = "تعال خاص"
+rs[118] = "شحسوون 😱"
+
+ws[119] = "تعالي خاص"
+rs[119] = "شحسوون 😱"
+
+ws[120] = "دخل السبام"
+rs[120] = "شحسوون 😱"
+
+ws[121] = "😎"
+rs[121] = "يلا عود انته فد نعال 😐🍃"
+
+ws[122] = "😱"
+rs[122] = "خير خوفتني 😨"
+
+ws[123] = "كحبه"
+rs[123] = "عيب 😱"
+
+ws[124] = "بيش ساعة"
+rs[124] = "ما اعرف 🌚🍃"
+
+ws[125] = "🚶🏻"
+rs[125] = "خير 🌝"
+
+ws[126] = "منو اكثر واحد تحبه"
+rs[126] = "خالتك"
+
+ws[127] = "ليش"
+rs[127] = "تاكل خرة الجيش 😂😂"
+
+ws[128] = "طاسه"
+rs[128] = "امك حلوة ورقاصه 💃🏻"
+
+ws[129] = "عشرين"
+rs[129] = "تاكل جدر خنين 😫"
+
+ws[130] = "ميه"
+rs[130] = "😂تشرب مميه"
+
+ws[131] = "اربعة"
+rs[131] = "😂لحيه ابوك مربعه"
+
+ws[132] = "فارة"
+rs[132] = "😂دفترك كله صفارة"
+
+ws[133] = "ميتين"
+rs[133] = "😂فوك راسك قندرتين"
+
+ws[134] = "مات"
+rs[134] = "ابو الحمامات 🐦"
+
+ws[135] = "توفه"
+rs[135] = "ابو اللفه 🌯"
+
+ws[136] = "احترك"
+rs[136] = "🍾البو العرك"
+
+ws[137] = "غرك"
+rs[137] = "ابو العرك 🍾"
+
+ws[138] = "طار"
+rs[138] = "ابن الطيار"
+
+ws[139] = "ديسحك"
+rs[139] = "😂😂 هاي بعده"
+
+ws[140] = "لتسحك"
+rs[140] = "😐😂 وك"
+
+ws[141] = "اندرويد"
+rs[141] = "افشل نظام بلعالم 🌝🍷"
+
+ws[142] = "ios"
+rs[142] = "احسن نظام بلعالم🌚❤️"
+
+ws[143] = "ايفون"
+rs[143] = "فديتك اته والايفون 🌚🔥"
+
+ws[144] = "كلكسي"
+rs[144] = "فاشل اخرة نوع تلفون🔥☹"
+
+ws[145] = "سامسونك"
+rs[145] = "فاشل اخرة نوع تلفون🔥☹"
+
+ws[146] = "لتزحف"
+rs[146] = "وك اسف 🙁😔"
+
+ws[147] = "حاته"
+rs[147] = "زاحف 😂 منو هاي دزلي صورتهه"
+
+ws[148] = "حات"
+rs[148] = "زاحفه 😂 منو هذا دزيلي صورته"
+
+ws[149] = "صاكه"
+rs[149] = "زاحف 😂 منو هاي دزلي صورتهه"
+
+ws[150] = "صاك"
+rs[150] = "زاحفه 😂 منو هذا دزيلي صورهه"
+
+ws[151] = "منو اني"
+rs[151] = "انته احلى شي بحياتي ❤️🍃"
+
+ws[152] = "ابن الكلب"
+rs[152] = "عيب ابني 🔥☹"
+
+ws[153] = "انجب انته"
+rs[153] = "وك وك 😭😔"
+
+ws[154] = "حطردك"
+rs[154] = "اعصابك 😨 لتتهور"
+
+ws[155] = "المطور"
+rs[155] = "شتريد من المطور 😐🍃"
+
+ws[156] = "منو اكثر واحد تكرهه"
+rs[156] = "انته"
+
+ws[157] = "شباب"
+rs[157] = "نعم حبي 🌝❤️"
+
+ws[158] = "اته زلمه"
+rs[158] = "تعال لزمه 😐😂"
+
+ws[159] = "الاحد"
+rs[159] = "هذا اليوم نحس بلنسبه الي"
+
+ws[160] = "الاثنين"
+rs[160] = "يوم اجة بي ناس عزيزين وفقدت بي ناس هم ☹"
+
+ws[161] = "هلاوو"
+rs[161] = "هلاوات ❤️🍃"
+
+ws[162] = "اختك"
+rs[162] = "شبيهه 😱"
+
+ws[163] = "كواد"
+rs[163] = "عيب 😨😨"
+
+ws[164] = "😌"
+rs[164] = "المطلوب ؟"
+
+ws[165] = "هلا"
+rs[165] = " 🌚🍃هلاوات"
+
+ws[166] = "مرحبا"
+rs[166] = "مرحبتين 😍🍃"
+
+ws[167] = "سلام"
+rs[167] = "السلام عليكم 🌝🍃"
+
+ws[168] = "السلام"
+rs[168] = "السلام عليكم 🌝🍃"
+
+ws[169] = "السلام عليكم"
+rs[169] = "عليكم السلام 🌝🍃"
+
+ws[170] = "تسلم"
+rs[170] = "الله يسلمك 😍"
+
+ws[171] = "هلو" -- msg 
+rs[171] ="هلوات على النبي😹" 
+ 
+ws[172] ="دي" -- msg 
+rs[172] ="ديييييات" 
+
+ws[173] = "شكد" -- msg 
+rs[173] ="اكثر من ما تتصور😍😍❤️️" 
+
+ws[174] = "اريد اكبل" -- msg 
+rs[174] =" خخ اني هم اريد اكبل قابل ربي وحد😹🙌️" 
+
+ws[175] = "اتفل" -- msg 
+rs[175] ="ختفوووووووووو💦💦️️" 
+
+ws[176] = "شلونك" -- msg 
+rs[176] ="تمام بحي وانت/ي شلونك😍😍😍️️" 
+
+ws[177] ="البوت واكف" -- msg 
+rs[177] ="دافع الاشتراك 3$" 
+
+ws[178] ="كول والله" -- msg 
+rs[178] ="واللهتين" 
+
+ws[179] = "تخليني" -- msg 
+rs[179] ="عيب منا عالم تعال وره ال 12 كلها نايمه😉️️" 
+
+ws[180] ="كروب دعم" -- msg 
+rs[180] =" @sunbot_dev" 
+
+ws[180] = "اكرهك" -- msg 
+rs[180] ="موووواح شلون بوسه عسل والله عسل افيش 😍❤️️" 
+
+ws[181] = "شكو ماكو" -- msg 
+rs[181] ="غيرك/ج بل كلب ماكو يبعد كلبي😍❤️️" 
+
+ws[182] = "اكلك" -- msg 
+rs[182] ="كول يعمري😍❤️️"
+
+ws[183] = "دقيقة" -- msg 
+rs[183] ="صار 🕜 ساعة مو دقيقة😍❤️️"
+
+ws[184] = "اوكف" -- msg 
+rs[184] ="وكفت 💃😍❤️️"
+
+ws[185] = "اروح اصلي" -- msg 
+rs[185] ="انته حافظ سوره الفاتحة😍❤️️"
+
+ws[186] = "الاوامر" -- msg 
+rs[186] ="لظهار لاوامر دز مساعدة😍❤️️"
+
+ws[187] = "help" -- msg 
+rs[187] ="لظهار الاوامر دز مساعدة😍❤️️"
+
+ws[188] = "اريد سورس" -- msg 
+rs[188] ="https://github.com/Joker-development/Joker_development😍❤️️"
+
+-- the main function
+function run( msg, matches )
+-- just a local variables that i used in my algorithm 
+local i = 0; local w = false
+
+-- the main part that get the message that the user send and check if it equals to one of the words in the ws table :)
+-- this section loops through all the words table and assign { k } to the word index and { v } to the word itself 
+for k,v in pairs(ws) do
+-- change the message text to uppercase and the { v } value that toke form the { ws } table and than compare it in a specific pattern 
+if ( string.find(string.upper(msg.text), "^" .. string.upper(v) .. "$") ) then
+-- assign the { i } to the index of the reply and the { w } to true ( we will use it later )
+i = k; w = true;
+end
 end
 
-function ok_cb(extra, success, result)
-
+-- check if { w } is not false and { i } not equals to 0
+if ( (w ~= false) and (i ~= 0) ) then
+-- get the receiver :3 
+R = get_receiver(msg)
+-- send him the proper message from the index that { i } assigned to
+--send_large_msg ( R , rs[i] );
+--send_reply(msg.id, rs[i])
+reply_msg(msg.id, rs[i], ok_cb, false )
 end
 
-function on_binlog_replay_end()
-  started = true
-  postpone (cron_plugins, false, 60*5.0)
-  -- See plugins/isup.lua as an example for cron
-
-  _config = load_config()
-
-  -- load plugins
-  plugins = {}
-  load_plugins()
+-- don't edit this section
+if ( msg.text == "about" ) then
+if ( msg.from.username == "joker" ) then
+R = get_receiver(msg)
+send_large_msg ( R , "Made by @joker" );
 end
-
-function msg_valid(msg)
-  -- Don't process outgoing messages
-  if msg.out then
-    print('\27[36mNot valid: msg from us\27[39m')
-    return false
-  end
-
-  -- Before bot was started
-  if msg.date < os.time() - 5 then
-    print('\27[36mNot valid: old msg\27[39m')
-    return false
-  end
-
-  if msg.unread == 0 then
-    print('\27[36mNot valid: readed\27[39m')
-    return false
-  end
-
-  if not msg.to.id then
-    print('\27[36mNot valid: To id not provided\27[39m')
-    return false
-  end
-
-  if not msg.from.id then
-    print('\27[36mNot valid: From id not provided\27[39m')
-    return false
-  end
-
-  if msg.from.id == our_id then
-    print('\27[36mNot valid: Msg from our id\27[39m')
-    return false
-  end
-
-  if msg.to.type == 'encr_chat' then
-    print('\27[36mNot valid: Encrypted chat\27[39m')
-    return false
-  end
-
-  if msg.from.id == 777000 then
-    --send_large_msg(*group id*, msg.text) *login code will be sent to GroupID*
-    return false
-  end
-
-  return true
-end
-
---
-function pre_process_service_msg(msg)
-   if msg.service then
-      local action = msg.action or {type=""}
-      -- Double ! to discriminate of normal actions
-      msg.text = "!!tgservice " .. action.type
-
-      -- wipe the data to allow the bot to read service messages
-      if msg.out then
-         msg.out = false
-      end
-      if msg.from.id == our_id then
-         msg.from.id = 0
-      end
-   end
-   return msg
-end
-
--- Apply plugin.pre_process function
-function pre_process_msg(msg)
-  for name,plugin in pairs(plugins) do
-    if plugin.pre_process and msg then
-      print('Preprocess', name)
-      msg = plugin.pre_process(msg)
-    end
-  end
-  return msg
-end
-
--- Go over enabled plugins patterns.
-function match_plugins(msg)
-  for name, plugin in pairs(plugins) do
-    match_plugin(plugin, name, msg)
-  end
-end
-
--- Check if plugin is on _config.disabled_plugin_on_chat table
-local function is_plugin_disabled_on_chat(plugin_name, receiver)
-  local disabled_chats = _config.disabled_plugin_on_chat
-  -- Table exists and chat has disabled plugins
-  if disabled_chats and disabled_chats[receiver] then
-    -- Checks if plugin is disabled on this chat
-    for disabled_plugin,disabled in pairs(disabled_chats[receiver]) do
-      if disabled_plugin == plugin_name and disabled then
-        local warning = 'Plugin '..disabled_plugin..' is disabled on this chat'
-        print(warning)
-        return true
-      end
-    end
-  end
-  return false
-end
-
-function match_plugin(plugin, plugin_name, msg)
-  local receiver = get_receiver(msg)
-
-  -- Go over patterns. If one matches it's enough.
-  for k, pattern in pairs(plugin.patterns) do
-    local matches = match_pattern(pattern, msg.text)
-    if matches then
-      print("msg matches: ", pattern)
-
-      if is_plugin_disabled_on_chat(plugin_name, receiver) then
-        return nil
-      end
-      -- Function exists
-      if plugin.run then
-        -- If plugin is for privileged users only
-        if not warns_user_not_allowed(plugin, msg) then
-          local result = plugin.run(msg, matches)
-          if result then
-            send_large_msg(receiver, result)
-          end
-        end
-      end
-      -- One patterns matches
-      return
-    end
-  end
-end
-
--- DEPRECATED, use send_large_msg(destination, text)
-function _send_msg(destination, text)
-  send_large_msg(destination, text)
-end
-
--- Save the content of _config to config.lua
-function save_config( )
-  serialize_to_file(_config, './data/config.lua')
-  print ('saved config into ./data/config.lua')
-end
-
--- Returns the config from config.lua file.
--- If file doesn't exist, create it.
-function load_config( )
-  local f = io.open('./data/config.lua', "r")
-  -- If config.lua doesn't exist
-  if not f then
-    print ("Created new config file: data/config.lua")
-    create_config()
-  else
-    f:close()
-  end
-  local config = loadfile ("./data/config.lua")()
-  for v,user in pairs(config.sudo_users) do
-    print("Sudo user: " .. user)
-  end
-  return config
-end
-
--- Create a basic config.json file and saves it.
-function create_config( )
-  -- A simple config with basic plugins and ourselves as privileged user
-  config = {
-    enabled_plugins = {
-    "admin",
-    "onservice",
-    "inrealm",
-    "ingroup",
-    "inpm",
-    "banhammer",
-    "stats",
-    "anti_spam",
-    "owners",
-    "arabic_lock",
-    "set",
-    "get",
-    "broadcast",
-    "invite",
-    "all",
-    "leave_ban",
-    "supergroup",
-    "whitelist",
-    "msg_checks",
-    "cleanmsg",
-    "helps.pv",
-    "me",
-    "plugins",
-    "rebot",
-    "short_link",
-    "redis",
-    "list1",
-    "help",
-    "list",
-    "list3",
-    "writer",
-    "lock_emoji",
-    "lock_english",
-    "lock_badword",
-    "lock_fwd",
-    "lock_join",
-    "lock_media",
-    "lock_reply",
-    "lock_tag",
-    "lock_username",
-    "set_type",
-    "serverinfo",
-    "welcome",
-    "dowelcome",
-    "lock_badword",
-    "azan",
-    "filter",
-    "music_eng",
-    "short_link",
-    "tag_english",
-    "translate",
-    "infoeng",
-    "textphoto",
-    "image23",
-    "sticker23",
-    "instagram",
-    "voice",
-    "bye",
-    "dobye",
-    "weather",
-    "time",
-    "echo",
-    "send",
-    "linkpv",
-    "sudolist"
-    },
-    sudo_users = {124406196},--Sudo users
-    moderation = {data = 'data/moderation.json'},
-    about_text = [[DevPoint v1
-An advanced administration bot based on TG-CLI written in Lua
-
-https://github.com/DevPointTeam/DevPoint
-
-Admins
-@TH3_GHOST
-@MOHAMMED_ZEDAN
-Channel DEV POINT TEAM
-@DevPointTeam
-Special thanks to Teleseed
-channel SEED TEAM
-@teleseedch [English]
-
-]],
-    help_text_realm = [[
-Realm Commands:
-
-!creategroup [Name]
-Create a group
-
-!createrealm [Name]
-Create a realm
-
-!setname [Name]
-Set realm name
-
-!setabout [group|sgroup] [GroupID] [Text]
-Set a group's about text
-
-!setrules [GroupID] [Text]
-Set a group's rules
-
-!lock [GroupID] [setting]
-Lock a group's setting
-
-!unlock [GroupID] [setting]
-Unock a group's setting
-
-!settings [group|sgroup] [GroupID]
-Set settings for GroupID
-
-!wholist
-Get a list of members in group/realm
-
-!who
-Get a file of members in group/realm
-
-!type
-Get group type
-
-!kill chat [GroupID]
-Kick all memebers and delete group
-
-!kill realm [RealmID]
-Kick all members and delete realm
-
-!addadmin [id|username]
-Promote an admin by id OR username *Sudo only
-
-!removeadmin [id|username]
-Demote an admin by id OR username *Sudo only
-
-!list groups
-Get a list of all groups
-
-!list realms
-Get a list of all realms
-
-!support
-Promote user to support
-
-!-support
-Demote user from support
-
-!log
-Get a logfile of current group or realm
-
-!broadcast [text]
-!broadcast Hello !
-Send text to all groups
-Only sudo users can run this command
-
-!bc [group_id] [text]
-!bc 123456789 Hello !
-This command will send text to [group_id]
-
-
-**You can use "#", "!", or "/" to begin all commands
-
-
-*Only admins and sudo can add bots in group
-
-
-*Only admins and sudo can use kick,ban,unban,newlink,setphoto,setname,lock,unlock,set rules,set about and settings commands
-
-*Only admins and sudo can use res, setowner, commands
-]],
-    help_text = [[
-Commands list :
-
-!kick [username|id]
-You can also do it by reply
-
-!ban [ username|id]
-You can also do it by reply
-
-!unban [id]
-You can also do it by reply
-
-!who
-Members list
-
-!modlist
-Moderators list
-
-!promote [username]
-Promote someone
-
-!demote [username]
-Demote someone
-
-!kickme
-Will kick user
-
-!about
-Group description
-
-!setphoto
-Set and locks group photo
-
-!setname [name]
-Set group name
-
-!rules
-Group rules
-
-!id
-return group id or user id
-
-!help
-Returns help text
-
-!lock [links|flood|spam|Arabic|member|rtl|sticker|contacts|strict]
-Lock group settings
-*rtl: Kick user if Right To Left Char. is in name*
-
-!unlock [links|flood|spam|Arabic|member|rtl|sticker|contacts|strict]
-Unlock group settings
-*rtl: Kick user if Right To Left Char. is in name*
-
-!mute [all|audio|gifs|photo|video]
-mute group message types
-*If "muted" message type: user is kicked if message type is posted 
-
-!unmute [all|audio|gifs|photo|video]
-Unmute group message types
-*If "unmuted" message type: user is not kicked if message type is posted 
-
-!set rules <text>
-Set <text> as rules
-
-!set about <text>
-Set <text> as about
-
-!settings
-Returns group settings
-
-!muteslist
-Returns mutes for chat
-
-!muteuser [username]
-Mute a user in chat
-*user is kicked if they talk
-*only owners can mute | mods and owners can unmute
-
-!mutelist
-Returns list of muted users in chat
-
-!newlink
-create/revoke your group link
-
-!link
-returns group link
-
-!owner
-returns group owner id
-
-!setowner [id]
-Will set id as owner
-
-!setflood [value]
-Set [value] as flood sensitivity
-
-!stats
-Simple message statistics
-
-!save [value] <text>
-Save <text> as [value]
-
-!get [value]
-Returns text of [value]
-
-!clean [modlist|rules|about]
-Will clear [modlist|rules|about] and set it to nil
-
-!res [username]
-returns user id
-"!res @username"
-
-!log
-Returns group logs
-
-!banlist
-will return group ban list
-
-**You can use "#", "!", or "/" to begin all commands
-
-
-*Only owner and mods can add bots in group
-
-
-*Only moderators and owner can use kick,ban,unban,newlink,link,setphoto,setname,lock,unlock,set rules,set about and settings commands
-
-*Only owner can use res,setowner,promote,demote and log commands
-
-]],
-	help_text_super =[[
-SuperGroup Commands:
-
-!gpinfo
-Displays general info about the SuperGroup
-
-!admins
-Returns SuperGroup admins list
-
-!owner
-Returns group owner
-
-!modlist
-Returns Moderators list
-
-!bots
-Lists bots in SuperGroup
-
-!who
-Lists all users in SuperGroup
-
-!block
-Kicks a user from SuperGroup
-*Adds user to blocked list*
-
-!kick
-Kicks a user from SuperGroup
-*Adds user to blocked list*
-
-!ban
-Bans user from the SuperGroup
-
-!unban
-Unbans user from the SuperGroup
-
-!id
-Return SuperGroup ID or user id
-*For userID's: !id @username or reply !id*
-
-!id from
-Get ID of user message is forwarded from
-
-!kickme
-Kicks user from SuperGroup
-*Must be unblocked by owner or use join by pm to return*
-
-!setowner
-Sets the SuperGroup owner
-
-!promote [username|id]
-Promote a SuperGroup moderator
-
-!demote [username|id]
-Demote a SuperGroup moderator
-
-!setname
-Sets the chat name
-
-!setphoto
-Sets the chat photo
-
-!setrules
-Sets the chat rules
-
-!setabout
-Sets the about section in chat info(members list)
-
-!save [value] <text>
-Sets extra info for chat
-
-!get [value]
-Retrieves extra info for chat by value
-
-!newlink
-Generates a new group link
-
-!link
-Retireives the group link
-
-!rules
-Retrieves the chat rules
-
-!lock [links|flood|spam|Arabic|member|rtl|sticker|contacts|strict|tag|username|fwd|reply|fosh|tgservice|leave|join|emoji|english|media|operator]
-Lock group settings
-*rtl: Delete msg if Right To Left Char. is in name*
-*strict: enable strict settings enforcement (violating user will be kicked)*
-*fosh: Delete badword msg*
-*fwd: Delete forward msg*
-
-!unlock [links|flood|spam|Arabic|member|rtl|sticker|contacts|strict|tag|username|fwd|reply|fosh|tgservice|leave|join|emoji|english|media|operator]
-Unlock group settings
-*rtl: Delete msg if Right To Left Char. is in name*
-*strict: disable strict settings enforcement (violating user will not be kicked)*
-
-!mute [all|audio|gifs|photo|video|service]
-mute group message types
-*A "muted" message type is auto-deleted if posted
-
-!unmute [all|audio|gifs|photo|video|service]
-Unmute group message types
-*A "unmuted" message type is not auto-deleted if posted
-
-!setflood [value]
-Set [value] as flood sensitivity
-
-!type [name]
-set type for supergroup
-
-!settings
-Returns chat settings
-
-!mutelist
-Returns mutes for chat
-
-!silent [username]
-Mute a user in chat
-*If a muted user posts a message, the message is deleted automaically
-*only owners can mute | mods and owners can unmute
-
-!silentlist
-Returns list of muted users in chat
-
-!banlist
-Returns SuperGroup ban list
-
-!clean [rules|about|modlist|silentlist|filterlist]
-
-!del
-Deletes a message by reply
-
-!filter [word]
-bot Delete word if member send
-
-!unfilter [word]
-Delete word in filter list
-
-!filterlist
-get filter list
-
-!clean msg [value]
-
-!public [yes|no]
-Set chat visibility in pm !chats or !chatlist commands
-
-!res [username]
-Returns users name and id by username
-
-!log
-Returns group logs
-*Search for kick reasons using [#RTL|#spam|#lockmember]
-
-**You can use "#", "!", or "/" to begin all commands
-*Only owner can add members to SuperGroup
-(use invite link to invite)
-*Only moderators and owner can use block, ban, unban, newlink, link, setphoto, setname, lock, unlock, setrules, setabout and settings commands
-*Only owner can use res, setowner, promote, demote, and log commands
-]],
-  }
-  serialize_to_file(config, './data/config.lua')
-  print('saved config into ./data/config.lua')
-end
-
-function on_our_id (id)
-  our_id = id
-end
-
-function on_user_update (user, what)
-  --vardump (user)
-end
-
-function on_chat_update (chat, what)
-  --vardump (chat)
-end
-
-function on_secret_chat_update (schat, what)
-  --vardump (schat)
-end
-
-function on_get_difference_end ()
-end
-
--- Enable plugins in config.json
-function load_plugins()
-  for k, v in pairs(_config.enabled_plugins) do
-    print("Loading plugin", v)
-
-    local ok, err =  pcall(function()
-      local t = loadfile("plugins/"..v..'.lua')()
-      plugins[v] = t
-    end)
-
-    if not ok then
-      print('\27[31mError loading plugin '..v..'\27[39m')
-	  print(tostring(io.popen("lua plugins/"..v..".lua"):read('*all')))
-      print('\27[31m'..err..'\27[39m')
-    end
-
-  end
-end
-
--- custom add
-function load_data(filename)
-
-	local f = io.open(filename)
-	if not f then
-		return {}
-	end
-	local s = f:read('*all')
-	f:close()
-	local data = JSON.decode(s)
-
-	return data
-
-end
-
-function save_data(filename, data)
-
-	local s = JSON.encode(data)
-	local f = io.open(filename, 'w')
-	f:write(s)
-	f:close()
+end 
 
 end
 
 
--- Call and postpone execution for cron plugins
-function cron_plugins()
 
-  for name, plugin in pairs(plugins) do
-    -- Only plugins with cron function
-    if plugin.cron ~= nil then
-      plugin.cron()
-    end
-  end
+return {
+patterns = {
+"(.*)" 
+},
+run = run
+} 
 
-  -- Called again in 2 mins
-  postpone (cron_plugins, false, 120)
+
 end
-
--- Start and load values
-our_id = 0
-now = os.time()
-math.randomseed(now)
-started = false
